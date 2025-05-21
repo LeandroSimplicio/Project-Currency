@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="Assets/style.css" />
+    <title>Project-Currency</title>
+  </head>
+  <body>
+    <img
+      src="Assets/img/dollar-bill.gif"
+      alt="pinguim-dollar-caindo"
+      class="img-pinguim"
+    />
+
+    <main class="container">
+      <label for="">
+        <h1 class="title">Conversor de Moedas</h1>
+        <p>Converter <b>de</b></p>
+        <select name="" id="">
+          <option value="">Real Brasileiro</option>
+          <option value="">US$ Dolar</option>
+          <option value="">€ Euro</option>
+          <option value="">£ Libra</option>
+          <option value="">Bitcoin</option>
+        </select>
+      </label>
+
+      <label for="">
+        <p>Converter <b>para</b></p>
+        <select name="" id="">
+          <option value="real">Real Brasileiro</option>
+          <option value="dolar">US$ Dolar</option>
+          <option value="euro">€ Euro</option>
+          <option value="libra">£ Libra</option>
+          <option value="bitcoin">Bitcoin</option>
+        </select>
+      </label>
+
+      <label for="">
+        Valor a ser convertido
+        <input
+          type="number"
+          name=""
+          id=""
+          placeholder="Digite o valor"
+          class="input-number"
+        />
+      </label>
+
+      <button class="btn-convert">Converter</button>
+
+      <section>
+        <div class="result">
+          <img src="Assets/img/real.png" alt="bandeira-brasileira" />
+          <p>Real</p>
+          <p>R$ 0,00</p>
+        </div>
+
+        <img src="Assets/img/seta.png" alt="seta roxa" />
+
+        <div class="result">
+          <img src="Assets/img/usa.png" alt="bandeira-americana" />
+          <p>olar Americano</p>
+          <p>US$ 0,00</p>
+        </div>
+      </section>
+    </main>
+    <script src="Assets/script.js"></script>
+  </body>
+</html>
