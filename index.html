@@ -12,6 +12,7 @@
     />
     <!--Font Awesome-->
     <link rel="stylesheet" href="Assets/style.css" />
+    <script src="Assets/script.js"></script>
     <title>Project-Currency</title>
   </head>
   <body>
@@ -36,7 +37,7 @@
 
       <label for="">
         <p>Converter <b>para</b></p>
-        <select name="" id="">
+        <select name="" class="select-currency" id="">
           <option value="real">Real Brasileiro</option>
           <option value="dolar">US$ Dolar</option>
           <option value="euro">€ Euro</option>
@@ -46,13 +47,13 @@
       </label>
 
       <label for="">
-        Valor a ser convertido
+        Valor a ser <b>convertido</b>
         <input
           type="number"
           name=""
           id=""
           placeholder="Digite o valor"
-          class="input-number"
+          class="input-currency"
         />
       </label>
 
@@ -65,15 +66,14 @@
           <p>R$ 0,00</p>
         </div>
 
-        <img src="Assets/img/seta.png" alt="seta roxa" />
+        <img src="Assets/img/seta.png" alt="seta roxa" class="arrow" />
 
         <div class="result">
           <img src="Assets/img/usa.png" alt="bandeira-americana" />
-          <p>olar Americano</p>
+          <p>Dolar Americano</p>
           <p>US$ 0,00</p>
         </div>
       </section>
     </main>
-    <script src="Assets/script.js"></script>
   </body>
 </html>
