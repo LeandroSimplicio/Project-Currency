@@ -12,7 +12,9 @@
     />
     <!--Font Awesome-->
     <link rel="stylesheet" href="Assets/style.css" />
+
     <script src="Assets/script.js" defer></script>
+
     <title>Project-Currency</title>
   </head>
   <body>
@@ -26,12 +28,12 @@
       <label for="">
         <h1 class="title">Conversor de Moedas</h1>
         <p>Converter <b>de</b></p>
-        <select name="" id="">
-          <option value="">Real Brasileiro</option>
-          <option value="">US$ Dolar</option>
-          <option value="">€ Euro</option>
-          <option value="">£ Libra</option>
-          <option value="">Bitcoin</option>
+        <select name="" class="select-currency-container">
+          <option value="real">Real Brasileiro</option>
+          <option value="dolar">US$ Dolar</option>
+          <option value="euro">€ Euro</option>
+          <option value="libra">£ Libra</option>
+          <option value="bitcoin">Bitcoin</option>
         </select>
       </label>
 
@@ -63,15 +65,17 @@
         <div class="result">
           <img src="Assets/img/real.png" alt="bandeira-brasileira" />
           <p class="currency">Real</p>
-          <p class="currency-value">R$ 0,00</p>
+
+          <p class="currency-value-to-convert">R$ 0,00</p>
         </div>
 
         <img src="Assets/img/seta.png" alt="seta roxa" class="arrow" />
 
         <div class="result">
-          <img src="Assets/img/usa.png" alt="bandeira-americana" />
-          <p lass="currency">Dolar Americano</p>
-          <p class="currenc-value-to-converte">US$ 0,00</p>
+          <img src="Assets/img/usa.png" alt="bandeira-americana" class="currency-image"/>
+
+          <p class="currency" id="currency-name">Dolar Americano</p>
+          <p class="currency-value">US$ 0,00</p>
         </div>
       </section>
     </main>
