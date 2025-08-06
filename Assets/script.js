@@ -1,86 +1,101 @@
-const currencyFromSelect = document.querySelector(".select-currency-container");
-const currencySelect = document.querySelector(".select-currency");
-const convertButton = document.querySelector(".btn-convert");
-const inputCurrency = document.querySelector(".input-currency");
+const convertButton = document.querySelector('.btn-convert');
+const currencySelectTo = document.querySelector('.select-currency');
+const currencySelectFrom = document.querySelector('.select-currency-container');
+const inputCurrency = document.querySelector('.input-currency');
 
-const currencyName = document.getElementById("currency-name");
-const currencyImage = document.querySelector(".currency-image");
+const currencyNameTo = document.querySelector('#currency-name');
+const currencyValue = document.querySelector('.currency-value');
+const currencyValueToConvert = document.querySelector('.currency-value-to-convert');
 
-const currencyImageFrom = document.querySelector(".currency-image-from");
-const currencyNameFrom = document.getElementById("currency-name-from");
+const imageTo = document.querySelector('.currency-image');
+const imageFrom = document.querySelector('.result img');
 
-const currencyValueToConvert = document.querySelector(".currency-value-to-convert");
-const currencyValue = document.querySelector(".currency-value");
+const nameFrom = document.querySelector('.result .currency'); // Nome da moeda origem
 
-const currencyRates = {
-  real: {
-    name: "Real Brasileiro",
-    img: "./Assets/img/real.png",
-    rate: 1,
-    symbol: "R$",
-  },
-  dolar: {
-    name: "Dólar Americano",
-    img: "./Assets/img/usa.png",
-    rate: 5.00,
-    symbol: "US$",
-  },
-  euro: {
-    name: "Euro",
-    img: "./Assets/img/euro.png",
-    rate: 5.50,
-    symbol: "€",
-  },
-  libra: {
-    name: "Libra",
-    img: "./Assets/img/libra.png",
-    rate: 6.40,
-    symbol: "£",
-  },
-  bitcoin: {
-    name: "Bitcoin",
-    img: "./Assets/img/bitcoin.png",
-    rate: 300000.00,
-    symbol: "₿",
-  },
+// Mapeamento para nomes e imagens
+const currencyData = {
+  real: { name: 'Real Brasileiro', image: 'Assets/img/real.png', code: 'BRL' },
+  dolar: { name: 'Dólar Americano', image: 'Assets/img/usa.png', code: 'USD' },
+  euro: { name: 'Euro', image: 'Assets/img/euro.png', code: 'EUR' },
+  libra: { name: 'Libra Esterlina', image: 'Assets/img/libra.png', code: 'GBP' },
+  bitcoin: { name: 'Bitcoin', image: 'Assets/img/bitcoin.png', code: 'BTC' },
 };
 
-function convertCurrency() {
-  const fromCurrency = currencyFromSelect.value;
-  const toCurrency = currencySelect.value;
+// Função principal de conversão
+async function convertValues() {
+  const fromCurrency = currencySelectFrom.value;
+  const toCurrency = currencySelectTo.value;
   const amount = parseFloat(inputCurrency.value);
 
-  if (isNaN(amount)) {
-    alert("Digite um valor válido para conversão.");
+  if (!amount || isNaN(amount)) {
+    alert('Digite um valor válido!');
     return;
   }
 
-  const fromRate = currencyRates[fromCurrency].rate;
-  const toRate = currencyRates[toCurrency].rate;
+  // Monta o par para a URL (ex: USD-BRL)
+  const pair = `${currencyData[toCurrency].code}-${currencyData[fromCurrency].code}`;
 
-  const convertedValue = (amount * fromRate) / toRate;
+  try {
+    const response = await fetch(`https://economia.awesomeapi.com.br/last/${pair}`);
+    const data = await response.json();
+    const rateKey = `${currencyData[toCurrency].code}${currencyData[fromCurrency].code}`;
+    const rate = parseFloat(data[rateKey].bid);
 
-  currencyValueToConvert.innerHTML = `${currencyRates[fromCurrency].symbol} ${amount.toFixed(2)}`;
-  currencyValue.innerHTML = `${currencyRates[toCurrency].symbol} ${convertedValue.toFixed(2)}`;
+    const converted = amount / rate;
+
+    // Atualiza valores na tela
+    currencyValueToConvert.textContent = formatCurrency(amount, fromCurrency);
+    currencyValue.textContent = formatCurrency(converted, toCurrency);
+  } catch (error) {
+    console.error('Erro ao buscar taxa de câmbio:', error);
+    alert('Erro ao buscar taxa de câmbio. Tente novamente.');
+  }
 }
 
-function updateAllCurrencyInfo() {
-  const toCurrency = currencySelect.value;
-  const fromCurrency = currencyFromSelect.value;
+// Formatação com base na moeda
+function formatCurrency(value, currency) {
+  const locales = {
+    real: 'pt-BR',
+    dolar: 'en-US',
+    euro: 'de-DE',
+    libra: 'en-GB',
+    bitcoin: 'en-US',
+  };
 
-  // Atualiza destino
-  currencyName.innerHTML = currencyRates[toCurrency].name;
-  currencyImage.src = currencyRates[toCurrency].img;
+  const symbols = {
+    real: 'BRL',
+    dolar: 'USD',
+    euro: 'EUR',
+    libra: 'GBP',
+    bitcoin: 'BTC',
+  };
 
-  // Atualiza origem
-  currencyNameFrom.innerHTML = currencyRates[fromCurrency].name;
-  currencyImageFrom.src = currencyRates[fromCurrency].img;
+  if (currency === 'bitcoin') {
+    return `₿ ${value.toFixed(6)}`;
+  }
+
+  return value.toLocaleString(locales[currency], {
+    style: 'currency',
+    currency: symbols[currency],
+  });
 }
 
-currencyFromSelect.addEventListener("change", updateAllCurrencyInfo);
-currencySelect.addEventListener("change", updateAllCurrencyInfo);
-currencyFromSelect.addEventListener("change", updateAllCurrencyInfo);
-convertButton.addEventListener("click", convertCurrency);
+// Atualiza nomes e imagens das moedas
+function updateCurrencyVisuals() {
+  const fromCurrency = currencySelectFrom.value;
+  const toCurrency = currencySelectTo.value;
 
-// Iniciar com info correta
-updateAllCurrencyInfo();
+  nameFrom.textContent = currencyData[fromCurrency].name;
+  imageFrom.src = currencyData[fromCurrency].image;
+
+  currencyNameTo.textContent = currencyData[toCurrency].name;
+  imageTo.src = currencyData[toCurrency].image;
+}
+
+// Eventos
+currencySelectFrom.addEventListener('change', updateCurrencyVisuals);
+currencySelectTo.addEventListener('change', updateCurrencyVisuals);
+convertButton.addEventListener('click', () => {
+  updateCurrencyVisuals();
+  convertValues();
+});
